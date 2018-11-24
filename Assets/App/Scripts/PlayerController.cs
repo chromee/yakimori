@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] ParticleSystem flameParticle;
     [SerializeField] float moveSpeed;
     [SerializeField] float rotateSpeed;
-    [SerializeField] float maxVelocity;
+    [SerializeField] float liftSpeed;
     [SerializeField] float angleToVelResistor;
     [SerializeField] float velToAngleResistor;
 
@@ -20,8 +20,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float maxRoll;
     [SerializeField] float minRoll;
 
+    float currentMoveSpeed;
+
     void Start()
     {
+        currentMoveSpeed = moveSpeed;
         this.UpdateAsObservable()
             .Subscribe(_ =>
             {
@@ -30,12 +33,20 @@ public class PlayerController : MonoBehaviour
 
                 var dxx = Mathf.Abs(dx) * angleToVelResistor;
                 if (dxx > 1) dy /= dxx;
-                rigid.AddForce(transform.forward * dy * moveSpeed);
-                var velocity = rigid.velocity.magnitude;
-
-                var dyy = velocity / maxVelocity * velToAngleResistor;
+                var dyy = dy * velToAngleResistor;
                 if (dyy > 1) dx /= dyy;
+
+                transform.position += transform.forward * dy * currentMoveSpeed;
                 transform.Rotate(0, dx * rotateSpeed, 0);
+
+                if (Input.GetKey(KeyCode.Q))
+                {
+                    transform.Translate(0, liftSpeed, 0);
+                }
+                if (Input.GetKey(KeyCode.E))
+                {
+                    transform.Translate(0, -liftSpeed, 0);
+                }
 
                 // if (velocity > 0.1 && angularVelocity > 0.1)
                 // {
@@ -51,32 +62,26 @@ public class PlayerController : MonoBehaviour
                 //     dragon.transform.localEulerAngles = Vector3.Slerp(dragon.transform.localEulerAngles, v, Time.deltaTime);
                 // }
 
-                animator.SetFloat("Move Y", velocity / maxVelocity / 2);
-
-                // Debug.Log($"{velocity}, {angularVelocity}");
+                animator.SetFloat("Move Y", dy / 2);
             });
 
-        this.UpdateAsObservable()
-            .Where(_ => Input.GetMouseButtonDown(0))
-            .Subscribe(_ =>
-            {
-                animator.SetBool("IsFlaming", true);
-            });
 
         this.UpdateAsObservable()
-            .Where(_ => Input.GetMouseButtonUp(0))
             .Subscribe(_ =>
             {
-                animator.SetBool("IsFlaming", false);
-                flameParticle.Stop();
-            });
-
-        this.UpdateAsObservable()
-            .Where(_ => Input.GetMouseButtonDown(1))
-            .Subscribe(_ =>
-            {
-                // Debug.Log("fireball");
-                animator.SetTrigger("Fireball");
+                if (Input.GetMouseButtonDown(0))
+                {
+                    currentMoveSpeed /= 3;
+                    animator.SetBool("IsFlaming", true);
+                }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    currentMoveSpeed *= 3;
+                    animator.SetBool("IsFlaming", false);
+                    flameParticle.Stop();
+                }
+                if (Input.GetMouseButtonDown(1))
+                    animator.SetTrigger("Fireball");
             });
     }
 

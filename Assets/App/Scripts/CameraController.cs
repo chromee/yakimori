@@ -10,8 +10,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float correctPosSpeed = 2f;
     [SerializeField] private float yMinLimit = -80;
     [SerializeField] private float yMaxLimit = 80;
-    [SerializeField] private float rotationSensitivity;
-    [SerializeField] private Vector3 positionOffset;
+    [SerializeField] private float rotationSensitivity = 1;
+    [SerializeField] private Vector3 positionOffset = new Vector3(0, 8, -10);
 
     private Camera mainCamera;
     private Transform cameraTransform;
@@ -23,6 +23,9 @@ public class CameraController : MonoBehaviour
         mainCamera = Camera.main;
         cameraTransform = mainCamera.transform;
         currentOffset = positionOffset;
+
+        if (target == null)
+            target = GameObject.FindGameObjectWithTag("CameraTarget").transform;
 
         this.UpdateAsObservable()
             .Subscribe(_ =>

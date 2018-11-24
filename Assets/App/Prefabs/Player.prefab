@@ -608,7 +608,7 @@ GameObject:
   - component: {fileID: 4383185482331780}
   m_Layer: 0
   m_Name: CameraTarget
-  m_TagString: Untagged
+  m_TagString: CameraTarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2293,7 +2293,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1698621226320296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 321.3, y: 62, z: 63.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4926603145558268}
@@ -3264,9 +3264,10 @@ MonoBehaviour:
   dragon: {fileID: 1645446782362194}
   animator: {fileID: 95874786252574558}
   rigid: {fileID: 54359195778828210}
-  moveSpeed: 2500
+  flameParticle: {fileID: 198283679431103342}
+  moveSpeed: 1
   rotateSpeed: 1
-  maxVelocity: 80
+  liftSpeed: 0.5
   angleToVelResistor: 1
   velToAngleResistor: 3
   rollSpeed: 1
@@ -3286,6 +3287,7 @@ MonoBehaviour:
   muzzle: {fileID: 4932948523362810}
   flameParticle: {fileID: 198283679431103342}
   fireBall: {fileID: 1507204327009010, guid: ab435706ad674224383d5cd5dda2d2bd, type: 2}
+  fireBallSpeed: 50
 --- !u!137 &137121959272675330
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -7013,11 +7015,11 @@ ParticleSystem:
     radiusScale: 0.5
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 3895
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
