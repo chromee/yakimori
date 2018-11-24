@@ -10,22 +10,31 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] Rigidbody rigid;
     [SerializeField] ParticleSystem flameParticle;
+
     [SerializeField] float moveSpeed;
     [SerializeField] float rotateSpeed;
     [SerializeField] float liftSpeed;
     [SerializeField] float angleToVelResistor;
     [SerializeField] float velToAngleResistor;
+    // [SerializeField] float rollSpeed;
+    // [SerializeField] float maxRoll;
+    // [SerializeField] float minRoll;
 
-    [SerializeField] float rollSpeed;
-    [SerializeField] float maxRoll;
-    [SerializeField] float minRoll;
+    public Subject<Unit> FireBreathStream = new Subject<Unit>();
 
     float currentMoveSpeed;
 
     void Start()
     {
-        GameManager.Instance.GameStartStream.Subscribe(_ => Init());
-        GameManager.Instance.GameRestartStream.Subscribe(_ => Init());
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.GameStartStream.Subscribe(_ => Init());
+            GameManager.Instance.GameRestartStream.Subscribe(_ => Init());
+        }
+        else
+        {
+            Init();
+        }
     }
 
     void Init()
@@ -75,19 +84,19 @@ public class PlayerController : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    currentMoveSpeed /= 3;
-                    animator.SetBool("IsFlaming", true);
+                    StartFireBreath();
                 }
                 if (Input.GetMouseButtonUp(0))
                 {
-                    currentMoveSpeed *= 3;
-                    animator.SetBool("IsFlaming", false);
-                    flameParticle.Stop();
+                    StopFireBreath();
                 }
                 if (Input.GetMouseButtonDown(1))
-                    animator.SetTrigger("Fireball");
+                {
+                    Fireball();
+                }
             });
 
+        if (GameManager.Instance == null) return;
         GameManager.Instance.GameEndStream.Subscribe(_ =>
         {
             moveStream.Dispose();
@@ -96,6 +105,24 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("IsFlaming", false);
             flameParticle.Stop();
         });
+    }
+
+    public void StartFireBreath()
+    {
+        currentMoveSpeed /= 3;
+        animator.SetBool("IsFlaming", true);
+    }
+
+    public void StopFireBreath()
+    {
+        currentMoveSpeed *= 3;
+        animator.SetBool("IsFlaming", false);
+        flameParticle.Stop();
+    }
+
+    public void Fireball()
+    {
+        animator.SetTrigger("Fireball");
     }
 
     float ClampAngle(float angle, float min, float max)
