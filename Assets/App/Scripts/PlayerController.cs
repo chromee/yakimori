@@ -24,8 +24,14 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        GameManager.Instance.GameStartStream.Subscribe(_ => Init());
+        GameManager.Instance.GameRestartStream.Subscribe(_ => Init());
+    }
+
+    void Init()
+    {
         currentMoveSpeed = moveSpeed;
-        this.UpdateAsObservable()
+        var moveStream = this.UpdateAsObservable()
             .Subscribe(_ =>
             {
                 float dx = Input.GetAxis("Horizontal");
@@ -48,25 +54,23 @@ public class PlayerController : MonoBehaviour
                     transform.Translate(0, -liftSpeed, 0);
                 }
 
-                // if (velocity > 0.1 && angularVelocity > 0.1)
+                // if (-0.1 < dx && dx < 0.1)
+                // {
+                //     dragon.transform.localEulerAngles = Vector3.Lerp(dragon.transform.localEulerAngles, Vector3.zero, Time.deltaTime);
+                // }
+                // else
                 // {
                 //     if (minRoll < dragon.transform.localEulerAngles.z && dragon.transform.localEulerAngles.z < maxRoll)
                 //     {
                 //         dragon.transform.Rotate(0, 0, dx * rollSpeed * -1);
-
                 //     }
-                // }
-                // else
-                // {
-                //     var v = new Vector3(0, dragon.transform.localEulerAngles.y, 0);
-                //     dragon.transform.localEulerAngles = Vector3.Slerp(dragon.transform.localEulerAngles, v, Time.deltaTime);
                 // }
 
                 animator.SetFloat("Move Y", dy / 2);
             });
 
 
-        this.UpdateAsObservable()
+        var flameStream = this.UpdateAsObservable()
             .Subscribe(_ =>
             {
                 if (Input.GetMouseButtonDown(0))
@@ -83,6 +87,15 @@ public class PlayerController : MonoBehaviour
                 if (Input.GetMouseButtonDown(1))
                     animator.SetTrigger("Fireball");
             });
+
+        GameManager.Instance.GameEndStream.Subscribe(_ =>
+        {
+            moveStream.Dispose();
+            flameStream.Dispose();
+            animator.SetFloat("Move Y", 0);
+            animator.SetBool("IsFlaming", false);
+            flameParticle.Stop();
+        });
     }
 
     float ClampAngle(float angle, float min, float max)
@@ -91,18 +104,5 @@ public class PlayerController : MonoBehaviour
         if (angle > 360) angle -= 360;
         return Mathf.Clamp(angle, min, max);
     }
-
-    public void StartFrame()
-    {
-
-        Debug.Log("frame");
-    }
-
-    public void StopFrame()
-    {
-
-        Debug.Log("frame stop");
-    }
-
 
 }

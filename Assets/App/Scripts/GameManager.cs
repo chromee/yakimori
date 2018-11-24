@@ -12,12 +12,56 @@ public class GameManager : MonoBehaviour
     public Subject<Unit> GameEndStream = new Subject<Unit>();
     public Subject<Unit> GameRestartStream = new Subject<Unit>();
 
-    public int Score;
-    public int Time;
+    public ReactiveProperty<int> Score;
+    public ReactiveProperty<int> Time;
+    public ReactiveProperty<bool> isGameContinue;
+
+    [SerializeField] int GameTime = 60;
+    [SerializeField] Transform playerStartPos;
+
+    System.IDisposable timerStream;
 
     void Start()
     {
         Instance = this;
-        DontDestroyOnLoad(this.gameObject);
+
+        GameStartStream.Subscribe(_ =>
+        {
+            Init();
+        });
+
+        GameEndStream.Subscribe(_ =>
+        {
+            timerStream.Dispose();
+            isGameContinue.Value = false;
+        });
+
+        GameRestartStream.Subscribe(_ =>
+        {
+            Init();
+        });
+
+        Observable.Timer(System.TimeSpan.FromMilliseconds(1))
+            .Subscribe(_ => GameStartStream.OnNext(Unit.Default));
+    }
+
+    void Init()
+    {
+        Score = new ReactiveProperty<int>(0);
+        Time = new ReactiveProperty<int>(GameTime);
+        isGameContinue = new ReactiveProperty<bool>(false);
+
+        timerStream = Observable.Interval(System.TimeSpan.FromSeconds(1))
+            .Where(_ => isGameContinue.Value)
+            .Subscribe(_ =>
+            {
+                Time.Value -= 1;
+                if (Time.Value == 0)
+                    GameEndStream.OnNext(Unit.Default);
+            });
+
+        if (playerStartPos != null)
+            GameObject.FindGameObjectWithTag("Player").transform.position = playerStartPos.position;
+        isGameContinue.Value = true;
     }
 }

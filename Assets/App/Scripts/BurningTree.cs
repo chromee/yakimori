@@ -15,6 +15,7 @@ public class BurningTree : MonoBehaviour
         {
             isBurned = true;
             Burn();
+            GameManager.Instance.Score.Value += 1;
         }
     }
 
