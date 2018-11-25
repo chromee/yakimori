@@ -16,6 +16,9 @@ public class VRPlayerController : PlayerController
     [SerializeField] float liftSpeed;
     [SerializeField] float flyingHeight;
     [SerializeField] float flyingRange;
+    [SerializeField] float flameDelay;
+    [SerializeField] AudioClip flameSoundClip;
+    [SerializeField] AudioSource audioSource;
 
     [SerializeField] TextMeshProUGUI devText;
 
@@ -25,6 +28,8 @@ public class VRPlayerController : PlayerController
 
         if (hmdTransform == null)
             hmdTransform = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
 
         var headMoveDistance = 0f;
         Observable.Timer(System.TimeSpan.FromSeconds(1)).Subscribe(_ =>
@@ -94,4 +99,53 @@ public class VRPlayerController : PlayerController
         return angle;
     }
 
+    bool isFlaming = false;
+    public override void StartFireBreath()
+    {
+        isFlaming = true;
+        animator.SetBool("IsFlaming", true);
+        Observable.Timer(System.TimeSpan.FromSeconds(flameDelay)).Where(_ => isFlaming).Subscribe(_ =>
+        {
+            audioSource.Play();
+            StartCoroutine(Fadein());
+            flameParticle.Play();
+        });
+    }
+
+    public override void StopFireBreath()
+    {
+        isFlaming = false;
+        animator.SetBool("IsFlaming", false);
+        flameParticle.Stop();
+        StartCoroutine(Fadeout());
+    }
+
+    float volume = 0;
+    IEnumerator Fadein()
+    {
+        audioSource.clip = flameSoundClip;
+        volume = 0;
+        for (; volume < 100; volume++)
+        {
+            if (!isFlaming)
+            {
+                StartCoroutine(Fadeout());
+                yield break;
+            }
+            audioSource.volume = volume / 100;
+            yield return null;
+        }
+        audioSource.volume = 1;
+    }
+
+    IEnumerator Fadeout()
+    {
+        for (; volume > 0; volume--)
+        {
+            audioSource.volume = volume / 100;
+            yield return null;
+        }
+        volume = 0;
+        audioSource.Stop();
+    }
 }
