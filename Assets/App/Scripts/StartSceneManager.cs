@@ -6,9 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class StartSceneManager : MonoBehaviour
 {
-
+    [SerializeField] string PlaySceneName;
     public void OnStart()
     {
-        SceneManager.LoadScene("App/Scenes/1_PlayScene");
+        SceneManager.LoadScene(PlaySceneName);
     }
 }
