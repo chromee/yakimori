@@ -453,6 +453,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1279684518826256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4723015849293930}
+  m_Layer: 0
+  m_Name: CameraTarget
+  m_TagString: CameraTarget
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1286189833617382
 GameObject:
   m_ObjectHideFlags: 1
@@ -2654,6 +2669,7 @@ Transform:
   m_Children:
   - {fileID: 4765323603096814}
   - {fileID: 4582316544564716}
+  - {fileID: 4723015849293930}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2843,6 +2859,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4162081312692516}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4723015849293930
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1279684518826256}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4616010582422192}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4729038623141206
 Transform:
@@ -3407,12 +3436,16 @@ MonoBehaviour:
   animator: {fileID: 95934898319783738}
   rigid: {fileID: 54918439773520574}
   flameParticle: {fileID: 198613773797976242}
-  cameraParentTransform: {fileID: 0}
-  cameraTransform: {fileID: 0}
+  hmdTransform: {fileID: 0}
+  headTrackingDetectThreshold: 5
+  moveThreshold: 0.3
+  moveSpeed: 0.5
+  rotateThreshold: 10
+  rotateSpeed: 0.05
   liftSpeed: 1
   flyingHeight: 30
   flyingRange: 10
-  positionTrackingOffset: {x: 0, y: -13, z: 0}
+  devText: {fileID: 0}
 --- !u!114 &114838118769786172
 MonoBehaviour:
   m_ObjectHideFlags: 1

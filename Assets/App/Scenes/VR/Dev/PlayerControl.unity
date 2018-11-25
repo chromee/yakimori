@@ -3015,9 +3015,17 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114663297733145926, guid: 8d4e3cbbf9a0b65428adfdf1598fc395,
         type: 2}
-      propertyPath: cameraTransform
+      propertyPath: devText
       value: 
-      objectReference: {fileID: 896852512}
+      objectReference: {fileID: 1613110164}
+    - target: {fileID: 4723015849293930, guid: 8d4e3cbbf9a0b65428adfdf1598fc395, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 2.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723015849293930, guid: 8d4e3cbbf9a0b65428adfdf1598fc395, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 6.62
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d4e3cbbf9a0b65428adfdf1598fc395, type: 2}
   m_IsPrefabAsset: 0
@@ -5833,6 +5841,18 @@ Prefab:
         type: 2}
       propertyPath: m_isInputParsingRequired
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1795474008742462, guid: fcf03b37275b1454598a0083273403ca, type: 2}
+      propertyPath: m_TagString
+      value: MainCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 1012067933874642, guid: fcf03b37275b1454598a0083273403ca, type: 2}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 1976397799782156, guid: fcf03b37275b1454598a0083273403ca, type: 2}
+      propertyPath: m_Name
+      value: DevCanvas
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fcf03b37275b1454598a0083273403ca, type: 2}
@@ -9686,11 +9706,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 892071039}
   m_CullTransparentMesh: 0
---- !u!4 &896852512 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4461255005986812, guid: fcf03b37275b1454598a0083273403ca,
-    type: 2}
-  m_PrefabInternal: {fileID: 547490413}
 --- !u!1 &914737010
 GameObject:
   m_ObjectHideFlags: 0
@@ -15476,6 +15491,12 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1570336555}
   m_CullTransparentMesh: 0
+--- !u!114 &1613110164 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114126761393961958, guid: fcf03b37275b1454598a0083273403ca,
+    type: 2}
+  m_PrefabInternal: {fileID: 547490413}
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
 --- !u!1 &1624633563
 GameObject:
   m_ObjectHideFlags: 0
