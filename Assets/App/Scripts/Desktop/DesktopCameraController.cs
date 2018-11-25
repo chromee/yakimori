@@ -4,7 +4,7 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 
-public class CameraController : MonoBehaviour
+public class DesktopCameraController : MonoBehaviour
 {
     [SerializeField] Transform target;
     [SerializeField] float correctPosSpeed = 2f;

@@ -20,7 +20,6 @@ public class MicrophoneFireBreath : MonoBehaviour
         audioSource.clip = Microphone.Start(Microphone.devices[0], true, 3, 24000);
         audioSource.Play();
 
-
         var spectrunData = new float[sampleLength];
         this.UpdateAsObservable()
             .Where(_ => audioSource != null)

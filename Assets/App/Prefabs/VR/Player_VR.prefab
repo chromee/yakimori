@@ -110,7 +110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4616010582422192}
   - component: {fileID: 54918439773520574}
-  - component: {fileID: 114195884503929150}
+  - component: {fileID: 114663297733145926}
   m_Layer: 0
   m_Name: Player_VR
   m_TagString: Player
@@ -1177,7 +1177,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1673917189278680
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
@@ -1319,7 +1319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4616970155703258}
   - component: {fileID: 137618560826847292}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: MOUNTAIN_DRAGON
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1877,7 +1877,7 @@ Transform:
   m_Children:
   - {fileID: 4550959926104908}
   m_Father: {fileID: 4638332780811340}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4160114519544644
 Transform:
@@ -2010,12 +2010,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1673917189278680}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2, z: -1}
+  m_LocalRotation: {x: 0.62254506, y: -0.33531627, z: -0.62254584, w: -0.33531693}
+  m_LocalPosition: {x: -1.28, y: -0.53, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4616010582422192}
-  m_RootOrder: 1
+  m_Father: {fileID: 4638332780811340}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4222607200583804
 Transform:
@@ -2597,7 +2597,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4616010582422192}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4589441655610548
 Transform:
@@ -2653,7 +2653,6 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4765323603096814}
-  - {fileID: 4215183594300256}
   - {fileID: 4582316544564716}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -2695,6 +2694,7 @@ Transform:
   m_LocalPosition: {x: -0.43104187, y: -0.00000015258789, z: -2.910383e-13}
   m_LocalScale: {x: 1.0000002, y: 1.0000002, z: 1}
   m_Children:
+  - {fileID: 4215183594300256}
   - {fileID: 4127919670014756}
   m_Father: {fileID: 4055220133033222}
   m_RootOrder: 0
@@ -3389,10 +3389,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4272175a68b8d964b93cc67bcd784746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerController: {fileID: 114195884503929150}
+  playerController: {fileID: 114663297733145926}
   fireBreathThreshold: 3
   sampleLength: 512
---- !u!114 &114195884503929150
+--- !u!114 &114663297733145926
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3400,21 +3400,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1107968847728678}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c71a1d422b6d61443b93e4e744d2847d, type: 3}
+  m_Script: {fileID: 11500000, guid: b36f409f91fda824b929f16a231f59a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dragon: {fileID: 1212188965313404}
   animator: {fileID: 95934898319783738}
   rigid: {fileID: 54918439773520574}
   flameParticle: {fileID: 198613773797976242}
-  moveSpeed: 1
-  rotateSpeed: 2
+  cameraParentTransform: {fileID: 0}
+  cameraTransform: {fileID: 0}
   liftSpeed: 1
   flyingHeight: 30
-  flyingRange: 5
-  angleToVelResistor: 1
-  velToAngleResistor: 3
-  debugFlag: 1
+  flyingRange: 10
+  positionTrackingOffset: {x: 0, y: -13, z: 0}
 --- !u!114 &114838118769786172
 MonoBehaviour:
   m_ObjectHideFlags: 1
