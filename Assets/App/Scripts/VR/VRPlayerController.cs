@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UniRx;
 using UniRx.Triggers;
 using TMPro;
@@ -20,7 +21,7 @@ public class VRPlayerController : PlayerController
     [SerializeField] AudioClip flameSoundClip;
     [SerializeField] AudioSource audioSource;
 
-    [SerializeField] TextMeshProUGUI devText;
+    public ReactiveProperty<float> hmdMoveAmount = new ReactiveProperty<float>();
 
     protected override void Init()
     {
@@ -31,15 +32,13 @@ public class VRPlayerController : PlayerController
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
 
-        var headMoveDistance = 0f;
         System.IDisposable moveStream = null;
         Observable.Timer(System.TimeSpan.FromSeconds(1)).Subscribe(_ =>
          {
-             headMoveDistance = 0;
-             devText.text = $"{headMoveDistance}";
+             hmdMoveAmount.Value = 0;
 
              moveStream = this.UpdateAsObservable()
-                 .Where(__ => headMoveDistance > moveThreshold)
+                 .Where(__ => hmdMoveAmount.Value > moveThreshold)
                  .Subscribe(__ =>
                  {
                      transform.position += transform.forward * moveSpeed;
@@ -63,8 +62,7 @@ public class VRPlayerController : PlayerController
 
                 if (posDiff.magnitude * 1000 > headTrackingDetectThreshold)
                 {
-                    headMoveDistance += dotPosDiffAndCamForward;
-                    devText.text = $"{headMoveDistance}";
+                    hmdMoveAmount.Value += dotPosDiffAndCamForward;
                 }
             });
 
@@ -81,6 +79,7 @@ public class VRPlayerController : PlayerController
                     else if (distance > flyingHeight + flyingRange)
                         transform.Translate(0, -liftSpeed, 0);
                 }
+
                 else
                     Debug.LogError("範囲外に出たかTerrainのレイヤーがGroundになってない");
 
@@ -103,6 +102,8 @@ public class VRPlayerController : PlayerController
             animator.SetBool("IsFlaming", false);
             flameParticle.Stop();
             Fadeout();
+
+            Observable.Timer(System.TimeSpan.FromSeconds(10)).Subscribe(__ => SceneManager.LoadScene("App/Scenes/0_StartScene"));
         });
     }
 

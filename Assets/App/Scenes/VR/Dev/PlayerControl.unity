@@ -748,7 +748,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1430389225206350, guid: f29a578a0cac79449b91539518665442, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114330298096316580, guid: f29a578a0cac79449b91539518665442,
+        type: 2}
+      propertyPath: GameTime
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f29a578a0cac79449b91539518665442, type: 2}

@@ -6,9 +6,21 @@ using UnityEngine.SceneManagement;
 
 public class StartSceneManager : MonoBehaviour
 {
-    [SerializeField] string PlaySceneName;
-    public void OnStart()
+    [SerializeField] string DesktopModeSceneName;
+    [SerializeField] string VRModeSceneName;
+
+    void Start()
     {
-        SceneManager.LoadScene(PlaySceneName);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void OnDesktopModeStart()
+    {
+        SceneManager.LoadScene(DesktopModeSceneName);
+    }
+    public void OnVRModeStart()
+    {
+        SceneManager.LoadScene(VRModeSceneName);
     }
 }
