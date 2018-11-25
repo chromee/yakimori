@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float moveSpeed;
     [SerializeField] float rotateSpeed;
     [SerializeField] float liftSpeed;
+    [SerializeField] float flyingHeight;
+    [SerializeField] float flyingRange;
     [SerializeField] float angleToVelResistor;
     [SerializeField] float velToAngleResistor;
     // [SerializeField] float rollSpeed;
@@ -23,6 +25,8 @@ public class PlayerController : MonoBehaviour
     public Subject<Unit> FireBreathStream = new Subject<Unit>();
 
     float currentMoveSpeed;
+
+    [SerializeField] bool debugFlag = true;
 
     void Start()
     {
@@ -52,15 +56,15 @@ public class PlayerController : MonoBehaviour
                 if (dyy > 1) dx /= dyy;
 
                 transform.position += transform.forward * dy * currentMoveSpeed;
-                transform.Rotate(0, dx * rotateSpeed, 0);
+                transform.Rotate(Vector3.up, dx * rotateSpeed);
 
-                if (Input.GetKey(KeyCode.Q))
+                if (Input.GetKey(KeyCode.Q) && dy < 0.01f)
                 {
-                    transform.Translate(0, liftSpeed, 0);
+                    flyingHeight += liftSpeed / 2;
                 }
-                if (Input.GetKey(KeyCode.E))
+                if (Input.GetKey(KeyCode.E) && dy < 0.01f)
                 {
-                    transform.Translate(0, -liftSpeed, 0);
+                    flyingHeight -= liftSpeed / 2;
                 }
 
                 // if (-0.1 < dx && dx < 0.1)
@@ -76,6 +80,31 @@ public class PlayerController : MonoBehaviour
                 // }
 
                 animator.SetFloat("Move Y", dy / 2);
+            });
+
+        RaycastHit hit;
+        int layerMask = 1 << 9;
+        this.UpdateAsObservable()
+            .Subscribe(_ =>
+            {
+                if (Physics.Raycast(transform.position, Vector3.down, out hit, 500f, layerMask))
+                {
+                    var distance = Vector3.Distance(transform.position, hit.point);
+                    if (distance < flyingHeight - flyingRange)
+                        transform.Translate(0, liftSpeed, 0);
+                    else if (distance > flyingHeight + flyingRange)
+                        transform.Translate(0, -liftSpeed, 0);
+                }
+                else
+                    Debug.LogError("範囲外に出たかTerrainのレイヤーがGroundになってない");
+
+                if (transform.eulerAngles.x > 0 || transform.eulerAngles.z > 0)
+                {
+                    var x = Mathf.Lerp(transform.eulerAngles.x, 0, Time.deltaTime);
+                    var z = Mathf.Lerp(transform.eulerAngles.z, 0, Time.deltaTime);
+                    transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+                }
+
             });
 
 

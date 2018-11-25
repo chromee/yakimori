@@ -36,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1553272941766382}
   m_LocalRotation: {x: 0.09995849, y: -0, z: -0, w: 0.99499166}
-  m_LocalPosition: {x: 0, y: -8.9, z: 9.2}
+  m_LocalPosition: {x: 0, y: 44.31, z: -8.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -74,7 +74,7 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
-  m_TargetEye: 3
+  m_TargetEye: 0
   m_HDR: 1
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
@@ -105,4 +105,4 @@ MonoBehaviour:
   yMinLimit: -80
   yMaxLimit: 80
   rotationSensitivity: 1
-  positionOffset: {x: 0, y: 8, z: -10}
+  positionOffset: {x: 0, y: 16, z: -20}

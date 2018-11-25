@@ -1,13 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 public class BurningTree : MonoBehaviour
 {
     [SerializeField] GameObject firePrefab;
+    [SerializeField] SphereCollider collider;
     [SerializeField] List<Transform> firePostions;
     [SerializeField] int burnPeriod;
+
     bool isBurned = false;
+    Renderer[] renderers;
+
+    void Start()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.GameRestartStream.Subscribe(_ =>
+            {
+                if (renderers == null) return;
+                foreach (var render in renderers)
+                {
+                    foreach (var material in render.materials)
+                    {
+                        material.SetColor("_Color", new Color(1, 1, 1, 1));
+                    }
+                }
+            });
+        }
+    }
 
     void OnParticleCollision(GameObject obj)
     {
@@ -46,7 +68,7 @@ public class BurningTree : MonoBehaviour
 
     IEnumerator BlackoutTree()
     {
-        var renderers = this.GetComponentsInChildren<Renderer>();
+        renderers = this.GetComponentsInChildren<Renderer>();
         var c = 1.0f;
         var d = c / 100f;
 
@@ -69,5 +91,6 @@ public class BurningTree : MonoBehaviour
             }
             yield return new WaitForSeconds(d * burnPeriod);
         }
+        collider.enabled = false;
     }
 }

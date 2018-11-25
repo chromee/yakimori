@@ -6,17 +6,19 @@ using UniRx.Triggers;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] private Transform target;
-    [SerializeField] private float correctPosSpeed = 2f;
-    [SerializeField] private float yMinLimit = -80;
-    [SerializeField] private float yMaxLimit = 80;
-    [SerializeField] private float rotationSensitivity = 1;
-    [SerializeField] private Vector3 positionOffset = new Vector3(0, 8, -10);
+    [SerializeField] Transform target;
+    [SerializeField] float correctPosSpeed = 2f;
+    [SerializeField] float yMinLimit = -80;
+    [SerializeField] float yMaxLimit = 80;
+    [SerializeField] float rotationSensitivity = 1;
+    [SerializeField] Vector3 positionOffset = new Vector3(0, 8, -10);
 
-    private Camera mainCamera;
-    private Transform cameraTransform;
-    private Vector3 currentOffset;
-    private float x, y;
+    Camera mainCamera;
+    Transform cameraTransform;
+    Vector3 currentOffset;
+    float x, y;
+    int layerMask = 1 << 9;
+
 
     void Start()
     {
@@ -32,7 +34,7 @@ public class CameraController : MonoBehaviour
             {
                 RaycastHit hit;
                 var dir = cameraTransform.position - target.position;
-                if (Physics.Raycast(target.position, dir, out hit, positionOffset.magnitude))
+                if (Physics.Raycast(target.position, dir, out hit, positionOffset.magnitude, layerMask))
                 {
                     var distance = Vector3.Distance(hit.point, target.position) * 0.8f;
                     currentOffset = Vector3.Lerp(currentOffset, currentOffset.normalized * distance, Time.deltaTime * correctPosSpeed);

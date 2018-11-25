@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
 
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         GameStartStream.Subscribe(_ =>
         {
             Init();

@@ -1044,8 +1044,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4926603145558268}
   - component: {fileID: 95874786252574558}
+  - component: {fileID: 136440899212146708}
   - component: {fileID: 114742610353528906}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: PlayerDragon
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1150,8 +1151,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4331671258712068}
-  - component: {fileID: 114546930051715728}
   - component: {fileID: 54359195778828210}
+  - component: {fileID: 114546930051715728}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2310,8 +2311,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1698621226320296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 24.2, z: -24.7}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4926603145558268}
   - {fileID: 4383185482331780}
@@ -3271,7 +3272,8 @@ AudioSource:
   m_GameObject: {fileID: 1627756991559268}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 243449749770064700, guid: f5f30d50a87fb8d40ab351aa2433d308,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -3393,9 +3395,12 @@ MonoBehaviour:
   flameParticle: {fileID: 198283679431103342}
   moveSpeed: 1
   rotateSpeed: 2
-  liftSpeed: 0.5
+  liftSpeed: 1
+  flyingHeight: 30
+  flyingRange: 5
   angleToVelResistor: 1
   velToAngleResistor: 3
+  debugFlag: 1
 --- !u!114 &114653594062648762
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3407,6 +3412,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4272175a68b8d964b93cc67bcd784746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 114546930051715728}
+  fireBreathThreshold: 3
+  sampleLength: 512
 --- !u!114 &114742610353528906
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3422,6 +3430,19 @@ MonoBehaviour:
   flameParticle: {fileID: 198283679431103342}
   fireBall: {fileID: 1507204327009010, guid: ab435706ad674224383d5cd5dda2d2bd, type: 2}
   fireBallSpeed: 50
+--- !u!136 &136440899212146708
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1645446782362194}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.55
+  m_Height: 4.91
+  m_Direction: 2
+  m_Center: {x: 0, y: 2.7, z: 0}
 --- !u!137 &137121959272675330
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -3819,7 +3840,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 15
+      scalar: 25
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -5493,7 +5514,7 @@ ParticleSystem:
     speedModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 12
       minScalar: 1
       maxCurve:
         serializedVersion: 2
