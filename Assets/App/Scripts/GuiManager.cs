@@ -18,8 +18,8 @@ public class GuiManager : MonoBehaviour
     {
         GameManager.Instance.Score.Subscribe(v => scoreText.text = v.ToString());
         GameManager.Instance.Time.Subscribe(v => timeText.text = v.ToString());
-        scoreText.gameObject.SetActive(true);
-        timeText.gameObject.SetActive(true);
+        scoreText.transform.parent.gameObject.SetActive(true);
+        timeText.transform.parent.gameObject.SetActive(true);
         resultPanel.gameObject.SetActive(false);
     }
 
@@ -30,8 +30,8 @@ public class GuiManager : MonoBehaviour
 
         GameManager.Instance.GameEndStream.Subscribe(_ =>
         {
-            scoreText.gameObject.SetActive(false);
-            timeText.gameObject.SetActive(false);
+            scoreText.transform.parent.gameObject.SetActive(false);
+            timeText.transform.parent.gameObject.SetActive(false);
 
             var score = GameManager.Instance.Score.Value;
             resultScoreText.text = score.ToString();

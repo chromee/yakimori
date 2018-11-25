@@ -32,24 +32,26 @@ public class VRPlayerController : PlayerController
             audioSource = GetComponent<AudioSource>();
 
         var headMoveDistance = 0f;
+        System.IDisposable moveStream = null;
         Observable.Timer(System.TimeSpan.FromSeconds(1)).Subscribe(_ =>
-        {
-            headMoveDistance = 0;
-            devText.text = $"{headMoveDistance}";
+         {
+             headMoveDistance = 0;
+             devText.text = $"{headMoveDistance}";
 
-            this.UpdateAsObservable()
-                .Where(__ => headMoveDistance > moveThreshold)
-                .Subscribe(__ =>
-                {
-                    transform.position += transform.forward * moveSpeed;
-                    var z = ClampAngle(hmdTransform.localEulerAngles.z);
-                    if (Mathf.Abs(z) > rotateThreshold)
-                    {
-                        transform.Rotate(transform.up, z * rotateSpeed * -1);
-                    }
-                });
-        });
-        this.UpdateAsObservable()
+             moveStream = this.UpdateAsObservable()
+                 .Where(__ => headMoveDistance > moveThreshold)
+                 .Subscribe(__ =>
+                 {
+                     transform.position += transform.forward * moveSpeed;
+                     var z = ClampAngle(hmdTransform.localEulerAngles.z);
+                     if (Mathf.Abs(z) > rotateThreshold)
+                     {
+                         transform.Rotate(transform.up, z * rotateSpeed * -1);
+                     }
+                 });
+         });
+
+        var hmdMoveStream = this.UpdateAsObservable()
             .Select(_ => hmdTransform.localPosition)
             .Buffer(2, 1)
             .Subscribe(v =>
@@ -68,7 +70,7 @@ public class VRPlayerController : PlayerController
 
         RaycastHit hit;
         int layerMask = 1 << 9;
-        this.UpdateAsObservable()
+        var transformFixStream = this.UpdateAsObservable()
             .Subscribe(_ =>
             {
                 if (Physics.Raycast(transform.position, Vector3.down, out hit, 500f, layerMask))
@@ -90,6 +92,18 @@ public class VRPlayerController : PlayerController
                 }
 
             });
+
+        if (GameManager.Instance == null) return;
+        GameManager.Instance.GameEndStream.Subscribe(_ =>
+        {
+            moveStream.Dispose();
+            hmdMoveStream.Dispose();
+            transformFixStream.Dispose();
+            animator.SetFloat("Move Y", 0);
+            animator.SetBool("IsFlaming", false);
+            flameParticle.Stop();
+            Fadeout();
+        });
     }
 
     float ClampAngle(float angle)
@@ -102,6 +116,7 @@ public class VRPlayerController : PlayerController
     bool isFlaming = false;
     public override void StartFireBreath()
     {
+        if (GameManager.Instance != null && !GameManager.Instance.isGameContinue.Value) return;
         isFlaming = true;
         animator.SetBool("IsFlaming", true);
         Observable.Timer(System.TimeSpan.FromSeconds(flameDelay)).Where(_ => isFlaming).Subscribe(_ =>
@@ -114,6 +129,7 @@ public class VRPlayerController : PlayerController
 
     public override void StopFireBreath()
     {
+        if (GameManager.Instance != null && !GameManager.Instance.isGameContinue.Value) return;
         isFlaming = false;
         animator.SetBool("IsFlaming", false);
         flameParticle.Stop();

@@ -266,6 +266,8 @@ GameObject:
   - component: {fileID: 136565621326324034}
   - component: {fileID: 114838118769786172}
   - component: {fileID: 114495813798565550}
+  - component: {fileID: 82123629370947222}
+  - component: {fileID: 168128506579598992}
   m_Layer: 13
   m_Name: PlayerDragon
   m_TagString: Player
@@ -3266,6 +3268,102 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!82 &82123629370947222
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1212188965313404}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 243615581765492410, guid: f5f30d50a87fb8d40ab351aa2433d308,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: d0d42bc8c98476646a7b88be93b1948f, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!82 &82810071056014286
 AudioSource:
   m_ObjectHideFlags: 1
@@ -3605,6 +3703,9 @@ MonoBehaviour:
   flameParticle: {fileID: 198613773797976242}
   fireBall: {fileID: 1507204327009010, guid: ab435706ad674224383d5cd5dda2d2bd, type: 2}
   fireBallSpeed: 50
+  fABRIK: {fileID: 114495813798565550}
+  audioSource: {fileID: 82123629370947222}
+  SeInterval: 1
 --- !u!136 &136565621326324034
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -3767,6 +3868,17 @@ SkinnedMeshRenderer:
     m_Center: {x: -1.6895795, y: -0.31958628, z: 0.0023946762}
     m_Extent: {x: 10.605688, y: 9.397493, z: 11.235681}
   m_DirtyAABB: 0
+--- !u!168 &168128506579598992
+AudioEchoFilter:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1212188965313404}
+  m_Enabled: 1
+  m_Delay: 151
+  m_DecayRatio: 0.2
+  m_WetMix: 0.1
+  m_DryMix: 0.02
 --- !u!198 &198523093185718666
 ParticleSystem:
   m_ObjectHideFlags: 1

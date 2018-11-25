@@ -66,7 +66,7 @@ public class DesktopPlayerController : PlayerController
 
         RaycastHit hit;
         int layerMask = 1 << 9;
-        this.UpdateAsObservable()
+        var transformFixStream = this.UpdateAsObservable()
             .Subscribe(_ =>
             {
                 if (Physics.Raycast(transform.position, Vector3.down, out hit, 500f, layerMask))
@@ -111,6 +111,7 @@ public class DesktopPlayerController : PlayerController
         GameManager.Instance.GameEndStream.Subscribe(_ =>
         {
             moveStream.Dispose();
+            transformFixStream.Dispose();
             flameStream.Dispose();
             animator.SetFloat("Move Y", 0);
             animator.SetBool("IsFlaming", false);
