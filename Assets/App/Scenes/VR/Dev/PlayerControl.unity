@@ -3018,16 +3018,6 @@ Prefab:
       propertyPath: cameraTransform
       value: 
       objectReference: {fileID: 896852512}
-    - target: {fileID: 114663297733145926, guid: 8d4e3cbbf9a0b65428adfdf1598fc395,
-        type: 2}
-      propertyPath: positionTrackingOffset.y
-      value: -13
-      objectReference: {fileID: 0}
-    - target: {fileID: 114663297733145926, guid: 8d4e3cbbf9a0b65428adfdf1598fc395,
-        type: 2}
-      propertyPath: positionTrackingOffset.z
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d4e3cbbf9a0b65428adfdf1598fc395, type: 2}
   m_IsPrefabAsset: 0
@@ -5745,6 +5735,26 @@ Prefab:
         type: 2}
       propertyPath: m_isInputParsingRequired
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114817690142309512, guid: fcf03b37275b1454598a0083273403ca,
+        type: 2}
+      propertyPath: hmdTransform
+      value: 
+      objectReference: {fileID: 896852512}
+    - target: {fileID: 114817690142309512, guid: fcf03b37275b1454598a0083273403ca,
+        type: 2}
+      propertyPath: moveThreshold
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114817690142309512, guid: fcf03b37275b1454598a0083273403ca,
+        type: 2}
+      propertyPath: rotateSpeed
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 114817690142309512, guid: fcf03b37275b1454598a0083273403ca,
+        type: 2}
+      propertyPath: rotateThreshold
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fcf03b37275b1454598a0083273403ca, type: 2}

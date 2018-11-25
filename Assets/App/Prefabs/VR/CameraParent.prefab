@@ -316,11 +316,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTarget: {fileID: 0}
-  cameraTransform: {fileID: 4461255005986812}
+  hmdTransform: {fileID: 4461255005986812}
   targetTrackingSpeed: 0
   headTrackingDetectThreshold: 5
-  moveThreshold: 0.5
+  moveThreshold: 0.3
   moveSpeed: 0.5
+  rotateThreshold: 10
+  rotateSpeed: 0.05
   devText: {fileID: 114126761393961958}
 --- !u!222 &222963840249707510
 CanvasRenderer:

@@ -27,11 +27,11 @@ public class VRPlayerController : PlayerController
             {
                 if (Physics.Raycast(transform.position, Vector3.down, out hit, 500f, layerMask))
                 {
-                    var distance = Vector3.Distance(transform.position, hit.point);
-                    if (distance < flyingHeight - flyingRange)
-                        cameraParentTransform.Translate(0, liftSpeed, 0);
-                    else if (distance > flyingHeight + flyingRange)
-                        cameraParentTransform.Translate(0, -liftSpeed, 0);
+                    // var distance = Vector3.Distance(transform.position, hit.point);
+                    // if (distance < flyingHeight - flyingRange)
+                    //     cameraParentTransform.Translate(0, liftSpeed, 0);
+                    // else if (distance > flyingHeight + flyingRange)
+                    //     cameraParentTransform.Translate(0, -liftSpeed, 0);
                 }
                 else
                     Debug.LogError("範囲外に出たかTerrainのレイヤーがGroundになってない");
@@ -43,16 +43,6 @@ public class VRPlayerController : PlayerController
                     transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
                 }
 
-            });
-
-        this.UpdateAsObservable()
-            .Subscribe(_ =>
-            {
-                transform.position = cameraTransform.transform.position + positionTrackingOffset;
-
-                var angle = cameraTransform.eulerAngles;
-                angle.x = 0; angle.z = 0;
-                transform.eulerAngles = angle;
             });
     }
 
