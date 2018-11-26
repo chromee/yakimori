@@ -14,14 +14,8 @@ public class VRPlayerController : PlayerController
     [SerializeField] float moveSpeed;
     [SerializeField] float rotateThreshold;
     [SerializeField] float rotateSpeed;
-    [SerializeField] float liftSpeed;
-    [SerializeField] float flyingHeight;
-    [SerializeField] float flyingRange;
-    [SerializeField] float flameDelay;
-    [SerializeField] AudioClip flameSoundClip;
-    [SerializeField] AudioSource audioSource;
 
-    public ReactiveProperty<float> hmdMoveAmount = new ReactiveProperty<float>();
+    public ReactiveProperty<float> hmdMoveAmount = new ReactiveProperty<float>(0);
 
     protected override void Init()
     {
@@ -32,6 +26,7 @@ public class VRPlayerController : PlayerController
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
 
+        flameTrigger.enabled = false;
         System.IDisposable moveStream = null;
         Observable.Timer(System.TimeSpan.FromSeconds(1)).Subscribe(_ =>
          {
@@ -64,32 +59,15 @@ public class VRPlayerController : PlayerController
                 {
                     hmdMoveAmount.Value += dotPosDiffAndCamForward;
                 }
+                if (hmdMoveAmount.Value < 0)
+                    hmdMoveAmount.Value = 0;
             });
 
-        RaycastHit hit;
-        int layerMask = 1 << 9;
-        var transformFixStream = this.UpdateAsObservable()
+        this.UpdateAsObservable()
+            .Where(_ => Input.GetKeyDown(KeyCode.F1))
             .Subscribe(_ =>
             {
-                if (Physics.Raycast(transform.position, Vector3.down, out hit, 500f, layerMask))
-                {
-                    var distance = Vector3.Distance(transform.position, hit.point);
-                    if (distance < flyingHeight - flyingRange)
-                        transform.Translate(0, liftSpeed, 0);
-                    else if (distance > flyingHeight + flyingRange)
-                        transform.Translate(0, -liftSpeed, 0);
-                }
-
-                else
-                    Debug.LogError("範囲外に出たかTerrainのレイヤーがGroundになってない");
-
-                if (transform.eulerAngles.x > 0 || transform.eulerAngles.z > 0)
-                {
-                    var x = Mathf.Lerp(transform.eulerAngles.x, 0, Time.deltaTime);
-                    var z = Mathf.Lerp(transform.eulerAngles.z, 0, Time.deltaTime);
-                    transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
-                }
-
+                hmdMoveAmount.Value = 0;
             });
 
         if (GameManager.Instance == null) return;
@@ -97,11 +75,7 @@ public class VRPlayerController : PlayerController
         {
             moveStream.Dispose();
             hmdMoveStream.Dispose();
-            transformFixStream.Dispose();
-            animator.SetFloat("Move Y", 0);
-            animator.SetBool("IsFlaming", false);
-            flameParticle.Stop();
-            Fadeout();
+            FireBreathSEFadeout();
 
             Observable.Timer(System.TimeSpan.FromSeconds(10)).Subscribe(__ => SceneManager.LoadScene("App/Scenes/0_StartScene"));
         });
@@ -114,7 +88,6 @@ public class VRPlayerController : PlayerController
         return angle;
     }
 
-    bool isFlaming = false;
     public override void StartFireBreath()
     {
         if (GameManager.Instance != null && !GameManager.Instance.isGameContinue.Value) return;
@@ -123,8 +96,9 @@ public class VRPlayerController : PlayerController
         Observable.Timer(System.TimeSpan.FromSeconds(flameDelay)).Where(_ => isFlaming).Subscribe(_ =>
         {
             audioSource.Play();
-            StartCoroutine(Fadein());
+            StartCoroutine(FireBreathSEFadein());
             flameParticle.Play();
+            flameTrigger.enabled = true;
         });
     }
 
@@ -134,35 +108,7 @@ public class VRPlayerController : PlayerController
         isFlaming = false;
         animator.SetBool("IsFlaming", false);
         flameParticle.Stop();
-        StartCoroutine(Fadeout());
-    }
-
-    float volume = 0;
-    IEnumerator Fadein()
-    {
-        audioSource.clip = flameSoundClip;
-        volume = 0;
-        for (; volume < 100; volume++)
-        {
-            if (!isFlaming)
-            {
-                StartCoroutine(Fadeout());
-                yield break;
-            }
-            audioSource.volume = volume / 100;
-            yield return null;
-        }
-        audioSource.volume = 1;
-    }
-
-    IEnumerator Fadeout()
-    {
-        for (; volume > 0; volume--)
-        {
-            audioSource.volume = volume / 100;
-            yield return null;
-        }
-        volume = 0;
-        audioSource.Stop();
+        StartCoroutine(FireBreathSEFadeout());
+        flameTrigger.enabled = false;
     }
 }

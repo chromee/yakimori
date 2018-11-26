@@ -7,6 +7,7 @@ public class BurningTree : MonoBehaviour
 {
     [SerializeField] GameObject firePrefab;
     [SerializeField] SphereCollider collider;
+    [SerializeField] AudioSource audioSource;
     [SerializeField] List<Transform> firePostions;
     [SerializeField] int burnPeriod;
 
@@ -31,7 +32,7 @@ public class BurningTree : MonoBehaviour
         }
     }
 
-    void OnParticleCollision(GameObject obj)
+    void OnTriggerEnter(Collider col)
     {
         if (!isBurned)
         {
@@ -48,6 +49,7 @@ public class BurningTree : MonoBehaviour
     {
         StartCoroutine(BurnLeave());
         StartCoroutine(BlackoutTree());
+        audioSource.Play();
     }
 
     IEnumerator BurnLeave()
@@ -72,6 +74,7 @@ public class BurningTree : MonoBehaviour
         var c = 1.0f;
         var d = c / 100f;
 
+        StartCoroutine(Fadeout());
         while (c > 0)
         {
             c -= d;
@@ -92,5 +95,17 @@ public class BurningTree : MonoBehaviour
             yield return new WaitForSeconds(d * burnPeriod);
         }
         collider.enabled = false;
+    }
+
+    int volume = 100;
+    IEnumerator Fadeout()
+    {
+        for (; volume > 0; volume--)
+        {
+            audioSource.volume = (float)volume / 100;
+            yield return new WaitForSeconds(0.005f * burnPeriod);
+        }
+        volume = 0;
+        audioSource.Stop();
     }
 }

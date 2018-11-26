@@ -17,7 +17,8 @@ public class GameManager : MonoBehaviour
     public ReactiveProperty<bool> isGameContinue;
 
     [SerializeField] int GameTime = 60;
-    [SerializeField] Transform playerStartPos;
+
+    [SerializeField] bool IsHideCursor = false;
 
     System.IDisposable timerStream;
 
@@ -25,8 +26,11 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
 
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        if (IsHideCursor)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
 
         GameStartStream.Subscribe(_ =>
         {
@@ -37,6 +41,8 @@ public class GameManager : MonoBehaviour
         {
             timerStream.Dispose();
             isGameContinue.Value = false;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         });
 
         GameRestartStream.Subscribe(_ =>
@@ -63,8 +69,9 @@ public class GameManager : MonoBehaviour
                     GameEndStream.OnNext(Unit.Default);
             });
 
-        if (playerStartPos != null)
-            GameObject.FindGameObjectWithTag("Player").transform.position = playerStartPos.position;
+        var startPositions = GameObject.FindGameObjectsWithTag("StartPosition");
+        if (startPositions.Length > 0)
+            GameObject.FindGameObjectWithTag("Player").transform.position = startPositions[Random.Range(0, startPositions.Length)].transform.position;
         isGameContinue.Value = true;
     }
 }

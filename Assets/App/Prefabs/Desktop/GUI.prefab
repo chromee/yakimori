@@ -553,7 +553,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: One more time
+  m_Text: Return Start
 --- !u!114 &114352267858815796
 MonoBehaviour:
   m_ObjectHideFlags: 1

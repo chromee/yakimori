@@ -8,9 +8,6 @@ public class DesktopPlayerController : PlayerController
 {
     [SerializeField] float moveSpeed;
     [SerializeField] float rotateSpeed;
-    [SerializeField] float liftSpeed;
-    [SerializeField] float flyingHeight;
-    [SerializeField] float flyingRange;
     [SerializeField] float angleToVelResistor;
     [SerializeField] float velToAngleResistor;
     // [SerializeField] float rollSpeed;
@@ -64,32 +61,6 @@ public class DesktopPlayerController : PlayerController
                 animator.SetFloat("Move Y", dy / 2);
             });
 
-        RaycastHit hit;
-        int layerMask = 1 << 9;
-        var transformFixStream = this.UpdateAsObservable()
-            .Subscribe(_ =>
-            {
-                if (Physics.Raycast(transform.position, Vector3.down, out hit, 500f, layerMask))
-                {
-                    var distance = Vector3.Distance(transform.position, hit.point);
-                    if (distance < flyingHeight - flyingRange)
-                        transform.Translate(0, liftSpeed, 0);
-                    else if (distance > flyingHeight + flyingRange)
-                        transform.Translate(0, -liftSpeed, 0);
-                }
-                else
-                    Debug.LogError("範囲外に出たかTerrainのレイヤーがGroundになってない");
-
-                if (transform.eulerAngles.x > 0 || transform.eulerAngles.z > 0)
-                {
-                    var x = Mathf.Lerp(transform.eulerAngles.x, 0, Time.deltaTime);
-                    var z = Mathf.Lerp(transform.eulerAngles.z, 0, Time.deltaTime);
-                    transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
-                }
-
-            });
-
-
         var flameStream = this.UpdateAsObservable()
             .Subscribe(_ =>
             {
@@ -111,7 +82,6 @@ public class DesktopPlayerController : PlayerController
         GameManager.Instance.GameEndStream.Subscribe(_ =>
         {
             moveStream.Dispose();
-            transformFixStream.Dispose();
             flameStream.Dispose();
             animator.SetFloat("Move Y", 0);
             animator.SetBool("IsFlaming", false);

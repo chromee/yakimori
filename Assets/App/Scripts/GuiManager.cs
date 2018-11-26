@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 using UniRx;
 
@@ -36,17 +37,17 @@ public class GuiManager : MonoBehaviour
             var score = GameManager.Instance.Score.Value;
             resultScoreText.text = score.ToString();
             if (0 == score)
-                resultCommentText.text = "little dragooon";
+                resultCommentText.text = "do you best";
             else if (0 < score && score <= 10)
-                resultCommentText.text = "middle dragooon";
-            else if (10 < score && score <= 20)
-                resultCommentText.text = "ultra big";
-            else if (20 < score && score <= 30)
-                resultCommentText.text = "ngaaaaaaaaaaa";
-            else if (30 < score && score <= 40)
-                resultCommentText.text = "ieeeeeeeeeeee";
-            else if (40 < score && score <= 50)
-                resultCommentText.text = "uoooooooooooo";
+                resultCommentText.text = "good";
+            else if (10 < score && score <= 30)
+                resultCommentText.text = "very good";
+            else if (30 < score && score <= 50)
+                resultCommentText.text = "special";
+            else if (50 < score && score <= 80)
+                resultCommentText.text = "great";
+            else if (80 < score)
+                resultCommentText.text = "excellent";
 
             resultPanel.gameObject.SetActive(true);
         });
@@ -54,7 +55,7 @@ public class GuiManager : MonoBehaviour
 
     public void OnRestartBtn()
     {
-        GameManager.Instance.GameRestartStream.OnNext(Unit.Default);
+        SceneManager.LoadScene("App/Scenes/0_StartScene");
     }
 
 }

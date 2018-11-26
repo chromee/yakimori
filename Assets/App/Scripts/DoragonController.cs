@@ -24,8 +24,14 @@ public class DoragonController : MonoBehaviour
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
 
-        if (fABRIK.solver.target == null)
-            fABRIK.solver.target = GameObject.FindGameObjectWithTag("IKTarget").transform;
+        if (fABRIK != null && fABRIK.solver.target == null)
+        {
+            var IKTarget = GameObject.FindGameObjectWithTag("IKTarget");
+            if (IKTarget != null)
+                fABRIK.solver.target = IKTarget.transform;
+            else
+                Debug.LogError("not found IKTarget");
+        }
 
         Observable.Interval(System.TimeSpan.FromSeconds(SeInterval)).Subscribe(_ =>
         {

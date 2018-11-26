@@ -51,5 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5dfe7778e87bab4ab4a4850c33ef24b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Score: 0
-  Time: 0
+  GameTime: 60
+  playerStartPos: {fileID: 0}
+  IsHideCursor: 1
