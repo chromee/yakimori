@@ -7323,7 +7323,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 243615581765492410, guid: f5f30d50a87fb8d40ab351aa2433d308,
     type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 81cafabc206ba36409bca69f8f92988f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -7432,6 +7432,7 @@ MonoBehaviour:
   flameDelay: 0.5
   flameSoundClip: {fileID: 8300000, guid: 81cafabc206ba36409bca69f8f92988f, type: 3}
   audioSource: {fileID: 8198012623855137958}
+  doragonController: {fileID: 114742610353528906}
   moveSpeed: 1
   rotateSpeed: 2
   angleToVelResistor: 1

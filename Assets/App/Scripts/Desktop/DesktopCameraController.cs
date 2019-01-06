@@ -45,7 +45,7 @@ public class DesktopCameraController : MonoBehaviour
                 }
             });
 
-        this.UpdateAsObservable()
+        this.FixedUpdateAsObservable()
             .Subscribe(_ =>
             {
                 var input = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));

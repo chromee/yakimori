@@ -4,9 +4,11 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 
+public enum GameMode { DesktopMode, VRMode };
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public static GameMode GameMode = GameMode.VRMode;
 
     public Subject<Unit> GameStartStream = new Subject<Unit>();
     public Subject<Unit> GameEndStream = new Subject<Unit>();
@@ -16,15 +18,22 @@ public class GameManager : MonoBehaviour
     public ReactiveProperty<int> Time;
     public ReactiveProperty<bool> isGameContinue;
 
+    [SerializeField] GameObject desktopModeParent;
+    [SerializeField] GameObject vrModeParent;
     [SerializeField] int GameTime = 60;
-
     [SerializeField] bool IsHideCursor = false;
+
+    [SerializeField] GameMode devGameMode;
 
     System.IDisposable timerStream;
 
     void Start()
     {
         Instance = this;
+
+#if UNITY_EDITOR
+        GameManager.GameMode = devGameMode;
+#endif
 
         if (IsHideCursor)
         {
@@ -50,6 +59,15 @@ public class GameManager : MonoBehaviour
             Init();
         });
 
+        if (GameManager.GameMode == GameMode.DesktopMode)
+            desktopModeParent.SetActive(true);
+        else if (GameManager.GameMode == GameMode.VRMode)
+            vrModeParent.SetActive(true);
+        else
+        {
+            Debug.LogError("not found game mode.");
+            return;
+        }
         Observable.Timer(System.TimeSpan.FromMilliseconds(1))
             .Subscribe(_ => GameStartStream.OnNext(Unit.Default));
     }
@@ -71,7 +89,12 @@ public class GameManager : MonoBehaviour
 
         var startPositions = GameObject.FindGameObjectsWithTag("StartPosition");
         if (startPositions.Length > 0)
-            GameObject.FindGameObjectWithTag("Player").transform.position = startPositions[Random.Range(0, startPositions.Length)].transform.position;
+        {
+            var startPos = startPositions[Random.Range(0, startPositions.Length)].transform;
+            var player = GameObject.FindGameObjectWithTag("Player").transform;
+            player.position = startPos.position;
+            player.rotation = startPos.rotation;
+        }
         isGameContinue.Value = true;
     }
 }

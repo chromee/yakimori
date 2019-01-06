@@ -6,6 +6,7 @@ using UniRx.Triggers;
 
 public class DesktopPlayerController : PlayerController
 {
+    [SerializeField] DoragonController doragonController;
     [SerializeField] float moveSpeed;
     [SerializeField] float rotateSpeed;
     [SerializeField] float angleToVelResistor;
@@ -23,7 +24,7 @@ public class DesktopPlayerController : PlayerController
         base.Init();
 
         currentMoveSpeed = moveSpeed;
-        var moveStream = this.UpdateAsObservable()
+        var moveStream = this.FixedUpdateAsObservable()
             .Subscribe(_ =>
             {
                 float dx = Input.GetAxis("Horizontal");
@@ -77,6 +78,20 @@ public class DesktopPlayerController : PlayerController
                     Fireball();
                 }
             });
+
+        doragonController.IsFlameBreathingStream.Subscribe(v =>
+        {
+            if (v)
+            {
+                flameParticle.Play();
+                audioSource.Play();
+            }
+            else
+            {
+                flameParticle.Stop();
+                audioSource.Stop();
+            }
+        });
 
         if (GameManager.Instance == null) return;
         GameManager.Instance.GameEndStream.Subscribe(_ =>

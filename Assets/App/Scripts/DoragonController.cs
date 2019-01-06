@@ -17,6 +17,8 @@ public class DoragonController : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] float SeInterval;
 
+    public Subject<bool> IsFlameBreathingStream = new Subject<bool>();
+
     void Start()
     {
         flameParticle.Stop();
@@ -41,12 +43,12 @@ public class DoragonController : MonoBehaviour
 
     public void StartFrame()
     {
-        flameParticle.Play();
+        IsFlameBreathingStream.OnNext(true);
     }
 
     public void StopFrame()
     {
-        flameParticle.Stop();
+        IsFlameBreathingStream.OnNext(false);
     }
 
     public void Fireball()

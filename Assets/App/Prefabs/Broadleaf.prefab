@@ -1,35 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1152750822017608
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4056801995894604}
-  m_Layer: 11
-  m_Name: FirePos (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
---- !u!4 &4056801995894604
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1152750822017608}
-  m_LocalRotation: {x: -0, y: -0.6815609, z: -0, w: 0.73176146}
-  m_LocalPosition: {x: -8.29, y: 9.27, z: 1.48}
-  m_LocalScale: {x: 1.6634, y: 1.6634, z: 1.6634}
-  m_Children: []
-  m_Father: {fileID: 4158649860900626}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: -85.93101, z: 0}
 --- !u!1 &1395014341952750
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,8 +160,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605309029479384}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1, y: 16.67, z: -1.16}
-  m_LocalScale: {x: 1.6634, y: 1.6634, z: 1.6634}
+  m_LocalPosition: {x: -0.96, y: 8.22, z: 0.47}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4158649860900626}
   m_RootOrder: 5
@@ -380,36 +350,6 @@ Tree:
   m_SpeedTreeWindAsset: {fileID: 22800000, guid: c91c1eb85782d5748ace27eb4d7415bb,
     type: 3}
   m_TreeData: {fileID: 0}
---- !u!1 &1952273907553024
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4416016631157532}
-  m_Layer: 11
-  m_Name: FirePos (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
---- !u!4 &4416016631157532
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1952273907553024}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.92, y: 8.89, z: 6.01}
-  m_LocalScale: {x: 1.6634, y: 1.6634, z: 1.6634}
-  m_Children: []
-  m_Father: {fileID: 4158649860900626}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1974256203427634
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,8 +387,6 @@ Transform:
   - {fileID: 4205574051335642}
   - {fileID: 4866758281161908}
   - {fileID: 4056335191534772}
-  - {fileID: 4416016631157532}
-  - {fileID: 4056801995894604}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -512,7 +450,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 3050c0f9c4440334889227f9e03d86e0, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.8
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -611,11 +549,9 @@ MonoBehaviour:
   firePrefab: {fileID: 1956197547661106, guid: f293a2dcc753a4a489fefe7f8f312d69, type: 3}
   collider: {fileID: 135510377902516636}
   audioSource: {fileID: 82120022021576230}
-  firePostions:
-  - {fileID: 4056335191534772}
-  - {fileID: 4416016631157532}
-  - {fileID: 4056801995894604}
+  firePostion: {fileID: 4056335191534772}
   burnPeriod: 10
+  fireScale: {x: 5, y: 8, z: 5}
 --- !u!1 &2548258936594019230
 GameObject:
   m_ObjectHideFlags: 0

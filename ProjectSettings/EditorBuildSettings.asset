@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/App/Scenes/0_StartScene.unity
     guid: 9e2b15a819b5f6844bc1815f9d8e90ef
   - enabled: 1
-    path: Assets/App/Scenes/Desktop/1_PlayScene.unity
-    guid: 942678250a321d046b0bf16ea8835b92
-  - enabled: 1
-    path: Assets/App/Scenes/VR/1_PlayScene.unity
+    path: Assets/App/Scenes/1_PlayScene.unity
     guid: 1c1596bcae736374ba6c76e8216ae9a8
   m_configObjects: {}

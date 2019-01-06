@@ -32,7 +32,7 @@ public class VRPlayerController : PlayerController
          {
              hmdMoveAmount.Value = 0;
 
-             moveStream = this.UpdateAsObservable()
+             moveStream = this.FixedUpdateAsObservable()
                  .Where(__ => hmdMoveAmount.Value > moveThreshold)
                  .Subscribe(__ =>
                  {
